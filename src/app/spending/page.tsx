@@ -69,8 +69,8 @@ export default function SpendingByPersonPage() {
         personMap.set(key, {
           transactions: [],
           name: key,
-          department: cardHolder.department_name || 'Unknown',
-          location: cardHolder.location_name || 'Unknown',
+          department: 'Unknown', // cardHolder.department_name not available in current API
+          location: 'Unknown', // cardHolder.location_name not available in current API
         });
       }
       personMap.get(key)!.transactions.push(transaction);

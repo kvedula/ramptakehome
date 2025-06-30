@@ -273,7 +273,7 @@ const config: Config = {
   },
   plugins: [
     // Custom utilities plugin
-    function({ addUtilities, theme }) {
+    function({ addUtilities, theme }: any) {
       const newUtilities = {
         // Scrollbar utilities
         '.scrollbar-hide': {

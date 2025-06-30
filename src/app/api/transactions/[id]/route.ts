@@ -2,18 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { rampApi } from '@/lib/api/client';
 import { RampApiError } from '@/types';
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
-    const { id } = params;
     
     if (!id) {
       return NextResponse.json(

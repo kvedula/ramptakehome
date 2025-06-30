@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,7 @@ import {
   X
 } from 'lucide-react';
 
-export default function TransactionsPage() {
+function TransactionsPageContent() {
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState<TransactionFilters>({
     limit: 20,
@@ -76,7 +76,7 @@ export default function TransactionsPage() {
   const handleStatusFilter = (status: string) => {
     setFilters(prev => ({
       ...prev,
-      state: status === 'all' ? undefined : status,
+      state: status === 'all' ? undefined : status as any,
     }));
   };
 
@@ -283,7 +283,7 @@ export default function TransactionsPage() {
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <Search className="h-3 w-3" />
-                  Searching: "{searchQuery}"
+                  Searching: &ldquo;{searchQuery}&rdquo;
                 </Badge>
                 <Button 
                   variant="ghost" 
@@ -417,5 +417,13 @@ export default function TransactionsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TransactionsPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <TransactionsPageContent />
+    </Suspense>
   );
 }

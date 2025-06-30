@@ -40,8 +40,11 @@ class RampApiClient {
       retries: config?.retries || this.DEFAULT_RETRIES,
     };
 
-    if (!this.config.clientId || !this.config.clientSecret) {
-      throw new Error('Ramp API client ID and secret are required');
+    // Only check for credentials in non-build environments
+    if (typeof window !== 'undefined' || process.env.NODE_ENV === 'production') {
+      if (!this.config.clientId || !this.config.clientSecret) {
+        console.warn('Ramp API client ID and secret are required for API calls');
+      }
     }
   }
 
